@@ -9,13 +9,13 @@ import { plainToInstance } from 'class-transformer';
 export class ContactsService {
   constructor( private prisma: PrismaService){}
 
-  async create(createContactDto: CreateContactDto) {
+  async create(createContactDto: CreateContactDto, userId: string) {
     const contact = new Contact();
     Object.assign(contact, { 
       ...createContactDto
     })
     const user = await this.prisma.user.findUnique({
-      where: {id: createContactDto.user_id },
+      where: {id: userId },
     })
 
     await this.prisma.contact.create({
@@ -25,7 +25,11 @@ export class ContactsService {
         email: contact.email,
         phone: contact.phone,
         created_at: contact.created_at,
-        user_id: user.id
+        user:{
+          connect: {
+            id: userId
+          }
+        }
 
       }
     })
