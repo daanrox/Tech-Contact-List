@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, UseGuards,Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, UseGuards,Request, Query } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags} from '@nestjs/swagger';
 
 @ApiTags('contacts')
 @Controller('contacts')
@@ -20,8 +20,9 @@ export class ContactsController {
   @Get()
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  findAll() {
-    return this.contactsService.findAll();
+  @ApiQuery({ name: 'userId', required: false })
+  findAll(@Query('userId') userId?: string) {
+    return this.contactsService.findAll(userId);
   }
 
   @Get(':id')

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Query } from '@nestjs/common';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
 import { PrismaService } from 'src/database/prisma.service';
@@ -36,7 +36,12 @@ export class ContactsService {
     return plainToInstance(Contact, contact);
   }
 
-  async findAll() {
+  async findAll(@Query('userId') userId?: string) {
+
+    if (userId) {
+      const contacts = await this.prisma.contact.findMany({where: {user_id: userId}})
+      return plainToInstance(Contact, contacts);
+    }
     const contacts = await this.prisma.contact.findMany()
     return plainToInstance(Contact, contacts);
 
