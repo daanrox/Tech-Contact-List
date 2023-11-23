@@ -38,11 +38,28 @@ export class ContactsService {
 
   async findAll(@Query('userId') userId?: string) {
 
+    
     if (userId) {
+      const user = await this.prisma.user.findFirst({where: {id: userId}})
+  
+      if (!user){
+        throw new NotFoundException('User does not exists.')
+      }
+
       const contacts = await this.prisma.contact.findMany({where: {user_id: userId}})
+      
+      if(contacts.length === 0){
+        throw new NotFoundException('Contacts not found for this user.');
+      }
+
       return plainToInstance(Contact, contacts);
     }
     const contacts = await this.prisma.contact.findMany()
+
+    if(contacts.length === 0){
+      throw new NotFoundException('Contacts not found for this user.');
+    }
+    
     return plainToInstance(Contact, contacts);
 
   }
