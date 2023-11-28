@@ -20,13 +20,20 @@ export const ModalStyles = createGlobalStyle`
         background-color: var(--color-white);
         width: 90%;
         max-width: 30rem;
-        border-radius: 0.4rem;
+        border-radius: 0.5rem;
     }
 
     .edit-modal-content{
-        background-color: var(--grey300);
+        background-color: var(--color-white);
         width: 90%;
         max-width: 40rem;
-        border-radius: 0.4rem;
+        border-radius: 0.5rem;
+    }
+
+    .delete-modal-content{
+        background-color: var(--color-white);
+        width: 90%;
+        max-width: 40rem;
+        border-radius: 0.5rem;
     }
 `

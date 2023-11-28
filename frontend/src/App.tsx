@@ -7,12 +7,14 @@ import { ModalStyles } from "./styles/ModalStyles";
 import { ModalAddContact } from "./components/Modals/ModalAddContact";
 import { useContext } from "react";
 import { UserContext } from "./providers/UserContext";
+import { ModalEditContact } from "./components/Modals/ModalEditContact";
+import { ModalDeleteContact } from "./components/Modals/ModalDeleteContact";
 
 Modal.setAppElement('#root')
 
 const App = () => {
 
-  const {modalAdd, setModalAdd} = useContext(UserContext)
+  const {modalAdd, modalEditContact, setModalEditContact, setModalAdd, modalDeleteContact, setModalDeleteContact} = useContext(UserContext)
   return (
     <>
     <GlobalStyles/>
@@ -27,10 +29,16 @@ const App = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="colored"
+        theme="light"
       />
       <Modal isOpen={modalAdd} onRequestClose={()=>{setModalAdd(false)}} contentLabel='' overlayClassName='modal-overlay' className='add-modal-content'>
         <ModalAddContact/>
+      </Modal>
+      <Modal isOpen={modalEditContact} onRequestClose={()=>{setModalEditContact(false)}} contentLabel='' overlayClassName='modal-overlay' className='edit-modal-content'>
+        <ModalEditContact/>
+      </Modal>
+      <Modal isOpen={modalDeleteContact} onRequestClose={()=>{setModalDeleteContact(false)}} contentLabel='' overlayClassName='modal-overlay' className='delete-modal-content'>
+        <ModalDeleteContact/>
       </Modal>
       <RoutesMain/>
       

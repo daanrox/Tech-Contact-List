@@ -18,7 +18,7 @@ export interface DecodedToken {
 
 export const Dashboard: React.FC = () => {
   const { setPage } = useContext(PanelContext);
-  const { logout, getContactList, contactsList , getUsersDetails } = useContext(UserContext);
+  const { logout, getContactList , getUsersDetails } = useContext(UserContext);
 
 
   useEffect(() => {
@@ -30,7 +30,6 @@ export const Dashboard: React.FC = () => {
   
         const decodedToken = jwtDecode<DecodedToken>(token);
         const userId = decodedToken.sub; 
-        console.log(contactsList)
         getUsersDetails(userId)
         getContactList(userId);
       } catch (error: unknown) {

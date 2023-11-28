@@ -12,7 +12,7 @@ import { PanelContext } from "./PanelContext";
 import { useNavigate } from "react-router-dom";
 import { IAddContact } from "../components/Modals/ModalAddContact";
 
-interface IContact {
+export interface IContact {
   id: string;
   name: string;
   email: string;
@@ -28,20 +28,18 @@ export interface IUser {
   contacts: IContact[];
 }
 
-interface IContact {
-  created_at: string;
-  email: string;
-  id: string;
-  name: string;
-  phone: string;
-  user_id: string;
-}
-
 interface iRegisterFormData {
   name: string;
   email: string;
   password: string;
   phone: string;
+}
+
+export interface IPartialUpdateContact extends Partial<IAddContact> {
+  id?: string;
+  name?: string;
+  phone?: string;
+  email?: string;
 }
 
 interface iLoginFormData {
@@ -72,6 +70,8 @@ export interface IUserContext {
   selectedContact: IContact | null;
   setSelectedContact: Dispatch<SetStateAction<IContact | null>>;
   addContact: (formData: IAddContact) => Promise<void>;
+  editContact: (formData: IPartialUpdateContact) => Promise<void>;
+  deleteContact: () => Promise<void>;
 }
 
 export const UserContext = createContext({} as IUserContext);
@@ -165,8 +165,6 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
         }, 3000);
       }
 
-     
-
       const { data } = await api.get(`contacts?userId=${userId}`);
 
       if (data) {
@@ -179,19 +177,73 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
     }
   };
 
-  const addContact = async (formData: IAddContact) =>{
-    try{
-      const {data} = await api.post("contacts", formData);
-      if(data){
-        toast.success('Contato cadastrado com sucesso!')
-        setContactsList([...contactsList, data])
+  const addContact = async (formData: IAddContact) => {
+    try {
+      const { data } = await api.post("contacts", formData);
+      if (data) {
+        toast.success("Contato cadastrado com sucesso!");
+        setContactsList([...contactsList, data]);
       }
-    } catch(error){
+    } catch (error) {
       const currentError = error as AxiosError<string>;
-      toast.error(currentError.message)
+      toast.error(currentError.message);
     }
-  }
-  
+  };
+
+  const editContact = async (formData: IPartialUpdateContact) => {
+    try {
+      const { data } = await api.patch(
+        `contacts/${selectedContact?.id}`,
+        formData
+      );
+      if (data) {
+        toast.success("Contato editado com sucesso!");
+
+        if (selectedContact && contactsList) {
+          const contactIndex = contactsList.findIndex(
+            (contact) => contact.id === selectedContact.id
+          );
+
+          if (contactIndex !== -1) {
+            const updatedContactsList = [...contactsList];
+            updatedContactsList[contactIndex] = {
+              ...updatedContactsList[contactIndex],
+              ...formData,
+            };
+
+            setContactsList(updatedContactsList);
+          }
+        }
+      }
+    } catch (error) {
+      const currentError = error as AxiosError<string>;
+      toast.error(currentError.message);
+    }
+  };
+
+  const deleteContact = async () => {
+    try {
+      const response = await api.delete(`contacts/${selectedContact?.id}`);
+      if (response.status === 200 || response.status === 204) {
+        toast.success("Contato excluído!");
+
+        if (selectedContact && contactsList) {
+          const updatedContactsList = contactsList.filter(
+            (contact) => contact.id !== selectedContact.id
+          );
+          setContactsList(updatedContactsList);
+        }
+
+        setModalDeleteContact(false);
+      } else {
+        toast.error("Erro ao excluir o contato.");
+      }
+    } catch (error) {
+      const currentError = error as AxiosError<string>;
+      toast.error(currentError.message);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -212,7 +264,9 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
         getUsersDetails,
         selectedContact,
         setSelectedContact,
-        addContact
+        addContact,
+        editContact,
+        deleteContact,
       }}
     >
       {children}
