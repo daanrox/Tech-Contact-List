@@ -10,7 +10,7 @@ export const Header = () => {
 
 const calcButtonText = (currentPage: string) => {
   if (currentPage === 'login') {
-    return 'Cadastre-se';
+    return 'Cadastre';
   } else if (currentPage === 'register') {
     return 'Login';
   } else if (currentPage === 'home'){

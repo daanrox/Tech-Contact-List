@@ -1,7 +1,16 @@
-import React, { createContext, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useContext,
+  useState,
+} from "react";
 import { api } from "../services";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
+import { PanelContext } from "./PanelContext";
+import { useNavigate } from "react-router-dom";
+import { IAddContact } from "../components/Modals/ModalAddContact";
 
 interface IContact {
   id: string;
@@ -11,7 +20,7 @@ interface IContact {
   user_id: string;
 }
 
-interface IUser {
+export interface IUser {
   id: string;
   name: string;
   email: string;
@@ -19,13 +28,26 @@ interface IUser {
   contacts: IContact[];
 }
 
-interface iRegisterFormData {
-  name: string,
-  email: string,
-  password: string,
-  phone: string
+interface IContact {
+  created_at: string;
+  email: string;
+  id: string;
+  name: string;
+  phone: string;
+  user_id: string;
 }
 
+interface iRegisterFormData {
+  name: string;
+  email: string;
+  password: string;
+  phone: string;
+}
+
+interface iLoginFormData {
+  email: string;
+  password: string;
+}
 
 export interface IUserProviderProps {
   children: React.ReactNode;
@@ -34,33 +56,166 @@ export interface IUserProviderProps {
 export interface IUserContext {
   user: IUser | null;
   setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
-  userRegister: (formData: iRegisterFormData) => Promise<void>; 
+  userRegister: (formData: iRegisterFormData) => Promise<void>;
+  userLogin: (formData: iLoginFormData) => Promise<void>;
+  logout: () => void;
+  getContactList: (userId: string) => void;
+  contactsList: IContact[];
+  setContactsList: Dispatch<SetStateAction<IContact[]>>;
+  getUsersDetails: (userId: string) => void;
+  modalAdd: boolean;
+  setModalAdd: Dispatch<SetStateAction<boolean>>;
+  modalEditContact: boolean;
+  setModalEditContact: Dispatch<SetStateAction<boolean>>;
+  modalDeleteContact: boolean;
+  setModalDeleteContact: Dispatch<SetStateAction<boolean>>;
+  selectedContact: IContact | null;
+  setSelectedContact: Dispatch<SetStateAction<IContact | null>>;
+  addContact: (formData: IAddContact) => Promise<void>;
 }
 
 export const UserContext = createContext({} as IUserContext);
 
 export const UserProvider = ({ children }: IUserProviderProps) => {
-  const [user, setUser] = useState<IUser | null>(null);
+  const navigate = useNavigate();
 
-  const userRegister = async (formData: iRegisterFormData) =>{
-    try{
-      const {data} = await api.post('users', formData)
-      if(data){
-        toast.success("Registro efetuado com sucesso")
+  const { setPage } = useContext(PanelContext);
+  const [user, setUser] = useState<IUser | null>(null);
+  const [contactsList, setContactsList] = useState<IContact[]>([]);
+  const [modalAdd, setModalAdd] = useState<boolean>(false);
+  const [modalEditContact, setModalEditContact] = useState<boolean>(false);
+  const [modalDeleteContact, setModalDeleteContact] = useState<boolean>(false);
+  const [selectedContact, setSelectedContact] = useState<IContact | null>(null);
+
+  const userRegister = async (formData: iRegisterFormData) => {
+    try {
+      const { data } = await api.post("users", formData);
+      if (data) {
+        toast.success("Registro efetuado com sucesso");
+        setTimeout(() => {
+          toast.success("Redirecionando para a página de Login");
+        }, 1000);
+        setTimeout(() => {
+          setPage({ page: "login" });
+          navigate("/login");
+        }, 3000);
       }
+    } catch (error) {
+      const currentError = error as AxiosError<string>;
+      toast.error(currentError.message);
     }
-    catch (error){
-      const currentError = error as AxiosError<string>
+  };
+
+  const userLogin = async (formData: iLoginFormData) => {
+    try {
+      const { data } = await api.post("login", formData);
+      if (data) {
+        toast.success("Login efetuado com sucesso");
+        localStorage.setItem("token", data.token);
+        setTimeout(() => {
+          setPage({ page: "dashboard" });
+          navigate("/dashboard");
+        }, 3000);
+      }
+    } catch (error) {
+      const currentError = error as AxiosError<string>;
+      toast.error(currentError.message);
+    }
+  };
+
+  const logout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
+
+  const getUsersDetails = async (userId: string) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Token is not found.");
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
+      }
+
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      const { data } = await api.get(`users/${userId}`, { headers });
+
+      if (data) {
+        setUser(data);
+        localStorage.setItem("userDetails", JSON.stringify(data));
+      }
+    } catch (error) {
+      const currentError = error as AxiosError<string>;
+      toast.error(currentError.message);
+    }
+  };
+
+  const getContactList = async (userId: string) => {
+    try {
+      const token = localStorage.getItem("token");
+      api.defaults.headers.common.Authorization = `Bearer ${token}`;
+      if (!token) {
+        toast.error("Token is not found.");
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
+      }
+
+     
+
+      const { data } = await api.get(`contacts?userId=${userId}`);
+
+      if (data) {
+        setContactsList(data);
+        localStorage.setItem("contacts", JSON.stringify(data));
+      }
+    } catch (error) {
+      const currentError = error as AxiosError<string>;
+      toast.error(currentError.message);
+    }
+  };
+
+  const addContact = async (formData: IAddContact) =>{
+    try{
+      const {data} = await api.post("contacts", formData);
+      if(data){
+        toast.success('Contato cadastrado com sucesso!')
+        setContactsList([...contactsList, data])
+      }
+    } catch(error){
+      const currentError = error as AxiosError<string>;
       toast.error(currentError.message)
     }
   }
-
-
+  
   return (
-    <UserContext.Provider value={{ user, setUser, userRegister }}>
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        userRegister,
+        userLogin,
+        modalAdd,
+        setModalAdd,
+        modalEditContact,
+        setModalEditContact,
+        modalDeleteContact,
+        setModalDeleteContact,
+        logout,
+        getContactList,
+        contactsList,
+        setContactsList,
+        getUsersDetails,
+        selectedContact,
+        setSelectedContact,
+        addContact
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
 };
-
-

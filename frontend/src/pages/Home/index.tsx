@@ -7,9 +7,11 @@ import { Button } from "../../components/Button"
 import { useNavigate } from "react-router-dom"
 import { useContext, useEffect } from "react"
 import { PanelContext } from "../../providers/PanelContext"
+import { UserContext } from "../../providers/UserContext"
 
 export const Home = () =>{
     const { setPage, goToLogin, goToRegister} = useContext(PanelContext)  
+    const { setContactsList} = useContext(UserContext) 
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -19,8 +21,12 @@ export const Home = () =>{
             setPage({ page: 'dashboard' })
             navigate('/dashboard')
         }
-    }, )
+    }, [navigate, setPage])
 
+    useEffect(()=>{
+        localStorage.clear()
+        setContactsList(null)
+    }, [])
    
 
     return (

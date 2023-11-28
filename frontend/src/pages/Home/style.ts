@@ -63,6 +63,7 @@ export const MainContainer = styled.main`
         align-items: center;
         gap: 2rem;
         flex-wrap: wrap;
+        width: 100%;
 
         button{
             min-width: 12rem;

@@ -46,5 +46,12 @@ export const GlobalStyles = createGlobalStyle`
         --color-white: #ffffff;
         --color-gray: #F2F2F2;
         
-    }    
+    } 
+
+    .warning{
+        color: red;
+        display: flex;
+        align-self: left;
+        text-align: left;
+    }
 `

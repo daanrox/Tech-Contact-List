@@ -58,7 +58,7 @@ export const Register = () => {
               <Input
                 type="text"
                 placeholder="Nome"
-                autoComplete="username"
+                autoComplete="name"
                 {...register("name")}
                 error={errors.name}
               />
