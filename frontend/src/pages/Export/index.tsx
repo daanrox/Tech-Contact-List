@@ -114,26 +114,6 @@ export const Export = () => {
                     </div>
                 ))}
             </div>
-            {/* <table>
-              <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Telefone</th>
-                  <th>Email</th>
-                  <th>Adicionado em</th>
-                </tr>
-              </thead>
-              <tbody>
-                {contactsList.map((contact, index) => (
-                  <tr key={index}>
-                    <td>{contact.name}</td>
-                    <td>{contact.phone}</td>
-                    <td>{contact.email}</td>
-                    <td>{formatDate(contact.created_at)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table> */}
           </div>
         </StyledExportBody>
       </Container>
