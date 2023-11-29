@@ -1,5 +1,7 @@
 # Gerenciador de Contatos - ContactList
 
+![Home - ContactList](front_example.jpg)
+
 ## Descrição
 Este projeto consiste em um avançado gerenciador de contatos, desenvolvido utilizando React + Typescript como frontend e NestJS como backend. Com um foco especial na experiência do usuário e na eficiência operacional, a aplicação oferece um conjunto abrangente de funcionalidades para gerenciar contatos de maneira ágil e segura.
 
