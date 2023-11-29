@@ -1,30 +1,56 @@
-# React + TypeScript + Vite
+# Gerenciador de Contatos - ContactList
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Descrição
+Este projeto consiste em um avançado gerenciador de contatos, desenvolvido utilizando React + Typescript como frontend e NestJS como backend. Com um foco especial na experiência do usuário e na eficiência operacional, a aplicação oferece um conjunto abrangente de funcionalidades para gerenciar contatos de maneira ágil e segura.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tecnologias Utilizadas
+- React
+- Typescript
+- Vite
 
-## Expanding the ESLint configuration
+## Backend em Produção
+O backend está hospedado em [https://daanrox-contact-list.onrender.com/api](https://daanrox-contact-list.onrender.com/api), onde você pode acessar a documentação em Swagger UI.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Funcionalidades
+- **Autenticação Segura:** Utilização de JSON Web Token (JWT) para autenticação segura dos usuários.
+- **CRUD de Contatos:** Operações completas de criação, leitura, atualização e exclusão de contatos vinculados aos usuários autenticados.
+- **Exportação de Relatórios em PDF:** Capacidade de gerar relatórios detalhados dos contatos cadastrados, disponibilizando um arquivo PDF para download.
+- **Validação de Dados:** Implementação de validação de formulários com React Hook Forms e Zod para garantir a integridade e precisão dos dados.
+- **Feedback ao Usuário:** Utilização do pacote Toast para fornecer feedbacks visuais e notificações durante interações com o sistema.
+- **Ícones Personalizados:** Integração do React Icons para fornecer uma ampla variedade de ícones personalizados e melhorar a experiência visual.
+- **Modais Interativos:** Utilização do React Modal para criar modais interativos e facilitar interações específicas do usuário.
+- **Carregamento Responsivo:** Implementação do React Loading para indicar efeitos visuais de carregamento durante operações assíncronas.
+- **Estilos Personalizados:** Utilização do Styled Components para aplicar estilos dinâmicos e personalizados em toda a aplicação.
+- **Requisições HTTP:** Integração do Axios para realizar solicitações HTTP com o backend de forma eficiente e confiável.
+- **Geração de PDF:** Utilização do HTML2PDF para gerar arquivos PDF a partir do conteúdo da aplicação.
 
-- Configure the top-level `parserOptions` property like this:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+## Executando o Projeto
+
+### Pré-requisitos
+Certifique-se de ter o Node.js instalado.
+
+### Instalação das Dependências
+No terminal, execute o seguinte comando para instalar as dependências:
+
+```bash
+npm install
+```
+### Rodando o Projeto
+Para iniciar o projeto, utilize o comando:
+
+```bash
+npm run dev
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Isso iniciará a aplicação Vite em modo de desenvolvimento.
+
+## Contato
+Se tiver dúvidas ou precisar de mais informações, sinta-se à vontade para entrar em contato:
+- Email : [contato@daanrox.com](mailto:contato@daanrox.com)
+- LinkedIn: [https://www.linkedin.com/in/daanrox/](Daanrox)
+
+--- 
+
+Este projeto faz parte do Bootcamp de Desenvolvimento Fullstack na Kenzie Academy.
