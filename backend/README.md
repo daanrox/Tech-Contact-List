@@ -1,73 +1,51 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Gerenciador de Contatos - Backend ContactList
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Descrição
+O backend deste projeto foi desenvolvido utilizando NestJS com TypeScript, fornecendo uma infraestrutura robusta para suportar as funcionalidades do gerenciador de contatos. Utilizando tecnologias avançadas, o backend oferece segurança, eficiência e flexibilidade para suportar as operações do frontend.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Tecnologias Utilizadas
+- NestJS
+- TypeScript
+- Prisma
+- PostgreSQL
+- Bcryptjs
+- Passport-jwt
 
-## Description
+## Backend em Produção
+O backend está hospedado em [https://daanrox-contact-list.onrender.com/api](https://daanrox-contact-list.onrender.com/api), onde você pode acessar a documentação detalhada na interface do Swagger UI.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Funcionalidades e Ferramentas
+- **NestJS:** Utilizado como o framework principal para desenvolvimento da API RESTful.
+- **TypeScript:** Proporciona segurança e melhora na produtividade durante o desenvolvimento.
+- **Prisma e PostgreSQL:** Banco de dados relacional para armazenamento seguro e confiável dos dados.
+- **Bcryptjs:** Utilizado para criptografar senhas e garantir a segurança das informações dos usuários.
+- **Passport-jwt:** Estratégia de autenticação para validar e proteger rotas com JSON Web Token (JWT).
 
-## Installation
+## Executando o Projeto
 
-```bash
-$ npm install
-```
+### Pré-requisitos
+Certifique-se de ter o Node.js instalado.
 
-## Running the app
+### Instalação das Dependências
+No terminal, execute o seguinte comando para instalar as dependências:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Test
+### Rodando o Projeto
+Para iniciar o backend, utilize o comando: 
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run start:dev
 ```
+Isso iniciará o servidor NestJs.
 
-## Support
+## Contato
+Se tiver dúvidas ou precisar de mais informações, sinta-se à vontade para entrar em contato:
+- Email : [contato@daanrox.com](mailto:contato@daanrox.com)
+- LinkedIn: [https://www.linkedin.com/in/daanrox/](Daanrox)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+--- 
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+Este projeto faz parte do Bootcamp de Desenvolvimento Fullstack na Kenzie Academy.
