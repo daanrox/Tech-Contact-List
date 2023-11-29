@@ -36,6 +36,24 @@ export const GlobalStyles = createGlobalStyle`
         ${link}
     }   
 
+    ::-webkit-scrollbar {
+     width: 10px; 
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--color-gray2); 
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--color-dark); 
+
+        border-radius: 5px; 
+    }
+
+    ::-webkit-scrollbar-horizontal {
+        height: 10px; 
+    }
+
     :root{
         --font-inter: 'Inter', sans-serif;
         
@@ -45,6 +63,10 @@ export const GlobalStyles = createGlobalStyle`
         --color-black: #000000;
         --color-white: #ffffff;
         --color-gray: #F2F2F2;
+        --color-gray2: #dee0e3;
+        --color-gray3: #7f8082;
+
+
         
     } 
 

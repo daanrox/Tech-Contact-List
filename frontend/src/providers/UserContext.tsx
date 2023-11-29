@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {
   Dispatch,
   SetStateAction,
@@ -17,6 +18,7 @@ export interface IContact {
   name: string;
   email: string;
   phone: string;
+  created_at: string;
   user_id: string;
 }
 
@@ -117,9 +119,17 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
           navigate("/dashboard");
         }, 3000);
       }
-    } catch (error) {
-      const currentError = error as AxiosError<string>;
-      toast.error(currentError.message);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        const { message } = error.response.data;
+        if (message === "Invalid credentials.") {
+          toast.error("Email e/ou Senha estão incorretos");
+        }
+        toast.error(message);
+      } else {
+        toast.error("Ocorreu um erro ao efetuar o login.");
+      }
     }
   };
 
@@ -158,22 +168,32 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
     try {
       const token = localStorage.getItem("token");
       api.defaults.headers.common.Authorization = `Bearer ${token}`;
+
       if (!token) {
         toast.error("Token is not found.");
         setTimeout(() => {
           navigate("/");
         }, 3000);
+        return;
       }
 
-      const { data } = await api.get(`contacts?userId=${userId}`);
+      const response = await api.get(`contacts?userId=${userId}`);
+      const { data } = response;
 
-      if (data) {
+      if (data && data.length > 0) {
         setContactsList(data);
         localStorage.setItem("contacts", JSON.stringify(data));
+      } else {
+        setContactsList([]);
+        localStorage.setItem("contacts", JSON.stringify([]));
       }
-    } catch (error) {
-      const currentError = error as AxiosError<string>;
-      toast.error(currentError.message);
+    } catch (error: any) {
+      if (error.response && error.response.status === 404) {
+        setContactsList([]);
+        localStorage.setItem("contacts", JSON.stringify([]));
+      } else {
+        console.log("Error:", error.message);
+      }
     }
   };
 
@@ -182,6 +202,11 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
       const { data } = await api.post("contacts", formData);
       if (data) {
         toast.success("Contato cadastrado com sucesso!");
+        if (contactsList) {
+          if (contactsList.length === 0) {
+            setContactsList([data]);
+          }
+        }
         setContactsList([...contactsList, data]);
       }
     } catch (error) {
@@ -225,6 +250,7 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
     try {
       const response = await api.delete(`contacts/${selectedContact?.id}`);
       if (response.status === 200 || response.status === 204) {
+        setModalDeleteContact(false);
         toast.success("Contato excluído!");
 
         if (selectedContact && contactsList) {
@@ -233,10 +259,6 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
           );
           setContactsList(updatedContactsList);
         }
-
-        setModalDeleteContact(false);
-      } else {
-        toast.error("Erro ao excluir o contato.");
       }
     } catch (error) {
       const currentError = error as AxiosError<string>;

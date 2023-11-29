@@ -15,7 +15,8 @@ export const StyledHeader = styled.header`
         justify-content: space-between;
         align-items: center;
         color: var(--color-gray);
-        width: 80%;
+        width: 90%;
+        max-width: 120rem;
         margin: auto;
         gap: 1rem;
         flex-wrap: wrap;

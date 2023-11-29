@@ -1,3 +1,4 @@
+import { useState, useEffect, useContext } from "react";
 import { Button } from "../Button";
 import {
   StyledContact,
@@ -8,60 +9,94 @@ import {
 import { FaRegUser, FaRegEdit } from "react-icons/fa";
 import { AiOutlineDelete } from "react-icons/ai";
 import espiral from "../../assets/img/espiral.png";
-import { useContext } from "react";
-import { IContact, UserContext } from "../../providers/UserContext";
-import ReactLoading from "react-loading";
+import { UserContext, IContact } from "../../providers/UserContext";
+import { HiOutlinePhone } from "react-icons/hi";
+import { AiOutlineMail } from "react-icons/ai";
 
 export const ContactList = () => {
-  const { contactsList, setModalAdd, setSelectedContact, setModalEditContact, setModalDeleteContact } = useContext(UserContext);
+  const {
+    contactsList,
+    setModalAdd,
+    setSelectedContact,
+    setModalEditContact,
+    setModalDeleteContact,
+  } = useContext(UserContext);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredContacts, setFilteredContacts] = useState<IContact[]>([]);
 
-  const handleEdit = (contact: IContact) =>{
-    setSelectedContact(contact)
-    setModalEditContact(true)
-  }
+  useEffect(() => {
+    if (searchTerm === "") {
+      setFilteredContacts(contactsList);
+    } else {
+      const filtered = contactsList.filter(
+        (contact) =>
+          contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          contact.phone.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          contact.email.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredContacts(filtered);
+    }
+  }, [searchTerm, contactsList]);
 
-  const handleDelete = (contact: IContact) =>{
-    setSelectedContact(contact)
-    setModalDeleteContact(true)
-  }
+  const handleEdit = (contact: IContact) => {
+    setSelectedContact(contact);
+    setModalEditContact(true);
+  };
+
+  const handleDelete = (contact: IContact) => {
+    setSelectedContact(contact);
+    setModalDeleteContact(true);
+  };
 
   return (
     <>
       <StyledContactList>
         <StyledContactHeader>
           <h2>Lista de Contatos</h2>
-          <Button
-            text="Adicionar"
-            onClick={() => {
-              setModalAdd(true);
-            }}
-          />
+          <div>
+            <input
+              type="text"
+              placeholder="Pesquisar"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <Button
+              text="Adicionar"
+              onClick={() => {
+                setModalAdd(true);
+              }}
+            />
+          </div>
         </StyledContactHeader>
         <StyledContactContent>
-          {contactsList && contactsList.length > 0 ? (
-            contactsList.map((contact) => (
+          {filteredContacts.length > 0 ? (
+            filteredContacts.map((contact) => (
               <div key={contact.id} className="contact-items">
                 <StyledContact>
                   <div className="cardContact">
                     <div className="cardBorder">
-                      <img src={espiral} />
+                      <img src={espiral} alt="espiral" />
                     </div>
                     <div className="cardInfos">
                       <FaRegUser className="cardIcon" />
                       <h3>{contact.name}</h3>
-                      <p>{contact.phone}</p>
-                      <p>{contact.email}</p>
+                      <p><HiOutlinePhone  className='cardIcon2'/>{contact.phone}</p>
+                      <p><AiOutlineMail className='cardIcon2'/>{contact.email}</p>
                       <div className="cardOptions">
                         <FaRegEdit
                           className="cardOptionIcon"
                           value={contact.id}
-                          onClick={()=>{handleEdit(contact)}}
+                          onClick={() => {
+                            handleEdit(contact);
+                          }}
                         />
                         <AiOutlineDelete
                           className="cardOptionIcon"
                           value={contact.id}
-                          onClick={()=>{handleDelete(contact)}}
+                          onClick={() => {
+                            handleDelete(contact);
+                          }}
                         />
                       </div>
                     </div>
@@ -70,14 +105,18 @@ export const ContactList = () => {
               </div>
             ))
           ) : (
-            <div className="loading__div">
-              <ReactLoading
-                type="spin"
-                color="var(--color-dark)"
-                height={"3.3rem"}
-                width={"3.3rem"}
-              />
-            </div>
+            <>
+              {searchTerm ? (
+                <h3 className="noFound">Nenhum contato encontrado</h3>
+              ) : (
+                <h3
+                  className="noContent"
+                  onClick={() => setModalAdd(true)}
+                >
+                  Adicione um Contato
+                </h3>
+              )}
+            </>
           )}
         </StyledContactContent>
       </StyledContactList>

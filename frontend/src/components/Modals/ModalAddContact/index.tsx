@@ -40,7 +40,7 @@ const { setModalAdd, addContact } = useContext(UserContext);
     <>
       <StyledAddContactModal>
         <div className="addModalHeader">
-          <h2>Cadastrar Contato</h2>
+          <h2>Adicionar Contato</h2>
           <AiOutlineClose  className='closeModal' onClick={closeAddModal}/>
         </div>
         <div className="addModalBody">
@@ -67,7 +67,7 @@ const { setModalAdd, addContact } = useContext(UserContext);
             />
             <p className='warning' >{errors.email?.message}</p>
 
-            <Button text="Cadastrar" onClick={() => {}} />
+            <Button text="Adicionar" onClick={() => {}} />
           </form>
         </div>
       </StyledAddContactModal>

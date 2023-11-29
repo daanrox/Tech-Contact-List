@@ -10,6 +10,7 @@ export const RegisterBox = styled.div`
     flex-direction: column;
     gap: 2.2rem;
     background-color: transparent;
+    
 `
 
 export const StyledRegisterForm = styled.form`

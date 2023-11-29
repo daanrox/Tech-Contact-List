@@ -4,11 +4,10 @@ import { z } from 'zod';
 export const loginSchema = z.object({
     email: z
         .string()
-        .nonempty('O e-mail é obrigatório')
-        .email('O e-mail fornecido é inválido.'),
+        .email('Digite um email válido'),
     password: z
         .string()
-        .nonempty('A senha é obrigatória.') 
+        .min(8, 'Sua senha precisa ter no mínimo 8 caracteres') 
 });
 
 export type iLoginForm = z.infer<typeof loginSchema>

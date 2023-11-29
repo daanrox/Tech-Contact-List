@@ -21,6 +21,7 @@ export const ModalStyles = createGlobalStyle`
         width: 90%;
         max-width: 30rem;
         border-radius: 0.5rem;
+        z-index: 99999
     }
 
     .edit-modal-content{
@@ -28,6 +29,8 @@ export const ModalStyles = createGlobalStyle`
         width: 90%;
         max-width: 40rem;
         border-radius: 0.5rem;
+        z-index: 99999
+
     }
 
     .delete-modal-content{
@@ -35,5 +38,7 @@ export const ModalStyles = createGlobalStyle`
         width: 90%;
         max-width: 40rem;
         border-radius: 0.5rem;
+        z-index: 99999
+
     }
 `

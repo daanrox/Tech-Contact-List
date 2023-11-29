@@ -1,10 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { Header } from "../../components/Header"
 import { DescriptionHome, MainContainer, TitleHome } from "./style"
 import iconMain from '../../assets/img/icon-transparent.png'
 import { Button } from "../../components/Button"
-import { useNavigate } from "react-router-dom"
 import { useContext, useEffect } from "react"
 import { PanelContext } from "../../providers/PanelContext"
 import { UserContext } from "../../providers/UserContext"
@@ -12,20 +12,15 @@ import { UserContext } from "../../providers/UserContext"
 export const Home = () =>{
     const { setPage, goToLogin, goToRegister} = useContext(PanelContext)  
     const { setContactsList} = useContext(UserContext) 
-    const navigate = useNavigate();
 
     useEffect(()=>{
         setPage({page: 'home'})
-        const token = localStorage.getItem('token')
-        if(token){ 
-            setPage({ page: 'dashboard' })
-            navigate('/dashboard')
-        }
-    }, [navigate, setPage])
+        
+    }, [ setPage])
 
     useEffect(()=>{
         localStorage.clear()
-        setContactsList(null)
+        setContactsList([])
     }, [])
    
 
