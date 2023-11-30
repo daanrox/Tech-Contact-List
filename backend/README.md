@@ -33,6 +33,13 @@ No terminal, execute o seguinte comando para instalar as dependências:
 npm install
 ```
 
+### Rodando as migrações
+Você precisa rodar as migrações executando o seguinte comando:
+
+```bash
+npm prisma migrate dev
+```
+
 ### Rodando o Projeto
 Para iniciar o backend, utilize o comando: 
 
